@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en-US" dir="ltr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<title>Copilot for finance leaders — practical guide</title>
+<style>
+:root{--brown:#351C15;--brown-2:#4A2A20;--gold:#FFB500;--gold-tint:#FFF4D6;--bg:#F8F5F1;--card:#FFFFFF;--ink:#2B211C;--muted:#6B5E57;--line:#E7DFD6;--ph-bg:#FFE7A3;--ph-ink:#4A2A20;--code:#FBF8F3;--shadow:0 1px 2px rgba(53,28,21,.06),0 4px 14px rgba(53,28,21,.06)}
+@media (prefers-color-scheme: dark){:root{--bg:#1B1411;--card:#261C17;--ink:#F3ECE6;--muted:#C2B4AA;--line:#3A2C25;--gold-tint:#3A2B12;--ph-bg:#5A4210;--ph-ink:#FFE7A3;--code:#211813;--shadow:none}}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 "Segoe UI",system-ui,-apple-system,Roboto,Helvetica,Arial,sans-serif}
+a{color:inherit;text-decoration-color:var(--gold);text-underline-offset:3px}
+a:hover{text-decoration-thickness:2px}
+header.top{background:var(--brown);color:#FFF8EE;border-block-end:6px solid var(--gold)}
+.wrap{max-width:1120px;margin-inline:auto;padding-inline:24px}
+header.top .wrap{padding-block:40px 28px}
+.eyebrow{color:var(--gold);font-weight:600;letter-spacing:.08em;text-transform:uppercase;font-size:.8rem;margin:0 0 8px}
+h1{font-size:clamp(1.9rem,4vw,2.8rem);line-height:1.15;margin:0 0 12px;font-weight:700}
+header .sub{max-width:760px;font-size:1.1rem;color:#F1E5DA;margin:0 0 20px}
+.btn{display:inline-block;background:var(--gold);color:#351C15;font-weight:600;padding:9px 16px;border-radius:999px;text-decoration:none;margin-block:4px;margin-inline-end:8px}
+.btn.ghost{background:transparent;color:inherit;box-shadow:inset 0 0 0 2px var(--gold)}
+header .btn.ghost{color:#FFF8EE}
+nav.tabs{position:sticky;top:0;z-index:5;background:var(--card);border-block-end:1px solid var(--line);box-shadow:var(--shadow)}
+nav.tabs .wrap{display:flex;gap:4px;overflow-x:auto}
+.tab{appearance:none;border:0;background:transparent;color:var(--muted);font:inherit;font-weight:600;padding:14px 18px;cursor:pointer;border-block-end:3px solid transparent;white-space:nowrap}
+.tab[aria-selected="true"]{color:var(--ink);border-block-end-color:var(--gold)}
+.tab:focus-visible,.copy:focus-visible,a:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+main .wrap{padding-block:28px 56px}
+h2{font-size:1.45rem;margin:40px 0 14px;color:var(--ink)}
+h2::before{content:"";display:inline-block;inline-size:10px;block-size:22px;background:var(--gold);margin-inline-end:10px;vertical-align:-3px;border-radius:2px}
+h2.h-in{margin-block-start:0;font-size:1.2rem}
+h3{font-size:1.08rem;margin:0 0 6px}
+h3.sub{margin-block:28px 12px}
+.lead{background:var(--card);border-inline-start:6px solid var(--gold);padding:16px 20px;border-radius:10px;box-shadow:var(--shadow);font-size:1.08rem}
+.lead p{margin:0}
+.grid{display:grid;gap:16px}
+.g2{grid-template-columns:repeat(auto-fit,minmax(min(100%,440px),1fr))}
+.g3{grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr))}
+.g4{grid-template-columns:repeat(auto-fit,minmax(min(100%,230px),1fr))}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px;box-shadow:var(--shadow)}
+.card p{margin:6px 0 0;color:var(--muted)}
+.card.accent{border-color:var(--gold);background:var(--gold-tint)}
+.badge{display:inline-block;white-space:nowrap;font-size:.72rem;font-weight:700;letter-spacing:.02em;padding:3px 9px;border-radius:999px;margin-block-end:10px}
+.b-core{background:var(--brown);color:#FFF8EE}
+.b-incl{background:var(--gold-tint);color:var(--ink);box-shadow:inset 0 0 0 1px var(--gold)}
+.b-enable{background:transparent;color:var(--ink);box-shadow:inset 0 0 0 1px var(--muted)}
+.split{display:grid;gap:16px}
+.split.two{grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr))}
+.flow{display:grid;grid-template-columns:1fr auto 1fr auto 1fr;gap:12px;align-items:stretch}
+.flow .arrow{align-self:center;color:var(--gold);font-size:1.8rem;font-weight:700}
+@media (max-width:820px){.flow{grid-template-columns:1fr}.flow .arrow{transform:rotate(90deg);justify-self:center}}
+.kicker{display:block;color:var(--muted);font-size:.8rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-block-end:4px}
+.tablewrap{overflow-x:auto;background:var(--card);border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow)}
+table{border-collapse:collapse;inline-size:100%;font-size:.95rem}
+th,td{padding:11px 14px;text-align:start;vertical-align:top;border-block-end:1px solid var(--line)}
+thead th{background:var(--brown);color:#FFF8EE;font-weight:600}
+tbody th{color:var(--ink);font-weight:600;white-space:nowrap}
+tbody tr:last-child th,tbody tr:last-child td{border-block-end:0}
+.callout{margin-block-start:24px;background:var(--gold-tint);border:1px solid var(--gold);border-radius:12px;padding:16px 18px}
+.callout h3{margin-block-end:4px}
+.callout p{margin:6px 0}
+.callout.warn{margin-block:0 20px}
+ol.steps{list-style:none;margin:0;padding:0;display:grid;gap:14px}
+.step{display:grid;grid-template-columns:44px 1fr;gap:14px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px;box-shadow:var(--shadow)}
+.step-n{inline-size:36px;block-size:36px;border-radius:50%;background:var(--brown);color:var(--gold);display:grid;place-items:center;font-weight:700}
+.step-b p{margin:4px 0 10px;color:var(--muted)}
+.step-b ol,.step-b ul{margin:6px 0 10px;padding-inline-start:20px}
+.compact .step{padding:12px 14px}
+.compact .step-b p{margin-block-end:0}
+.prompt{background:var(--card);border:1px solid var(--line);border-inline-start:5px solid var(--gold);border-radius:10px;padding:12px 14px;margin-block:10px;box-shadow:var(--shadow);display:flex;flex-direction:column}
+.grid .prompt{margin:0}
+.pt-title{margin:0 0 6px;font-size:1.02rem}
+.pt-head{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-block-end:8px}
+.pt-label{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+.pt-where{font-size:.75rem;font-weight:600;background:var(--gold-tint);color:var(--ink);padding:2px 8px;border-radius:999px}
+.copy{margin-inline-start:auto;appearance:none;border:0;background:var(--brown);color:#FFF8EE;font:inherit;font-size:.82rem;font-weight:600;padding:6px 14px;border-radius:999px;cursor:pointer;min-inline-size:76px}
+.copy:hover{background:var(--brown-2)}
+.copy.done{background:var(--gold);color:#351C15}
+pre{margin:0;white-space:pre-wrap;word-wrap:break-word;font:14.5px/1.55 "Segoe UI",system-ui,sans-serif;background:var(--code);border-radius:8px;padding:12px 14px;flex:1}
+.small pre{font-size:14px}
+.ph{background:var(--ph-bg);color:var(--ph-ink);border-radius:4px;padding:0 3px;font-weight:600}
+.note{color:var(--muted);font-size:.9rem;margin:8px 0}
+.tip{background:var(--gold-tint);border-radius:8px;padding:8px 12px;margin:10px 0}
+.links{font-size:.92rem;margin:10px 0 0}
+.links a{font-weight:600}
+footer{border-block-start:1px solid var(--line);color:var(--muted);font-size:.85rem}
+footer .wrap{padding-block:24px 40px}
+.sr{position:absolute;inline-size:1px;block-size:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.acc-list{display:grid;gap:10px}
+.acc-list.solo{margin-block-start:10px}
+.acc{background:var(--card);border:1px solid var(--line);border-radius:12px;box-shadow:var(--shadow)}
+.acc[open]{border-color:var(--gold)}
+.acc summary{list-style:none;display:flex;align-items:center;gap:14px;padding:12px 16px;cursor:pointer;border-radius:12px}
+.acc summary::-webkit-details-marker{display:none}
+.acc summary:hover{background:var(--gold-tint)}
+.acc summary:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+.acc-t{display:flex;flex-direction:column;gap:2px;min-inline-size:0}
+.acc-t strong{font-size:1.02rem}
+.acc-s{color:var(--muted);font-size:.9rem}
+.chev{margin-inline-start:auto;inline-size:10px;block-size:10px;flex:none;border-inline-end:2px solid var(--muted);border-block-end:2px solid var(--muted);transform:rotate(45deg);transition:transform .15s}
+.acc[open] .chev{transform:rotate(225deg)}
+.acc-b{padding-block:0 16px;padding-inline:66px 16px}
+.acc-b.no-n{padding-inline-start:16px}
+.acc-b>p{margin:0 0 8px;color:var(--muted)}
+.acc-b ol{margin:0 0 8px;padding-inline-start:20px}
+.acc-b .prompt{margin-block:8px 0}
+@media (max-width:600px){.acc-b{padding-inline:16px}}
+.sec-head{display:flex;align-items:baseline;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.toggle-all{appearance:none;border:0;background:transparent;color:var(--ink);font:inherit;font-size:.88rem;font-weight:600;text-decoration:underline;text-decoration-color:var(--gold);text-underline-offset:3px;cursor:pointer;padding:4px}
+.toggle-all:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+.cta{background:var(--brown);color:#FFF8EE;border-block-start:6px solid var(--gold)}
+.cta .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;padding-block:28px}
+.cta-h{margin:0 0 4px;color:#FFF8EE}
+.cta p{margin:0;color:#F1E5DA}
+.cta .btn.ghost{color:#FFF8EE}
+@media print{details>*{display:block}nav.tabs,.copy{display:none}.panel[hidden]{display:block}header.top{border:0}}
+</style>
+</head>
+<body>
+<header class="top"><div class="wrap">
+ <p class="eyebrow">Practical guide · Microsoft 365 Copilot</p>
+ <h1>Copilot for finance leaders</h1>
+ <p class="sub">Turn the updates your teams send you into what changed, what needs your attention and what to ask — on demand, on a schedule, or delegated.</p>
+</div></header>
+<nav class="tabs" aria-label="Guide sections"><div class="wrap" role="tablist"><button class="tab" role="tab" type="button" id="tab-overview" aria-controls="overview" aria-selected="true" tabindex="0" data-tab="overview">Overview</button><button class="tab" role="tab" type="button" id="tab-prompting" aria-controls="prompting" aria-selected="false" tabindex="-1" data-tab="prompting">Prompting</button><button class="tab" role="tab" type="button" id="tab-agent-builder" aria-controls="agent-builder" aria-selected="false" tabindex="-1" data-tab="agent-builder">Agent Builder</button><button class="tab" role="tab" type="button" id="tab-cowork" aria-controls="cowork" aria-selected="false" tabindex="-1" data-tab="cowork">Cowork</button></div></nav>
+<main><div class="wrap"><section class="panel" role="tabpanel" id="overview" aria-labelledby="tab-overview">
+<section class="lead"><p>One everyday challenge — updates arrive from many teams, and you need to know <strong>what changed, what needs your attention and what to ask</strong> — solved three ways. Work IQ is the common thread.</p></section>
+<h2>What we'll cover</h2>
+<div class="grid g4">
+ <div class="card"><span class="badge b-core">Behind everything</span><h3>Work IQ</h3><p>The intelligence behind every Copilot experience.</p></div>
+ <div class="card"><span class="badge b-incl">Included</span><h3>Prompting in the Copilot app</h3><p>Ask, refine, save — and schedule prompts to run on their own.</p></div>
+ <div class="card"><span class="badge b-incl">Included</span><h3>Agent Builder</h3><p>Make a repeatable assistant your team can share.</p></div>
+ <div class="card"><span class="badge b-enable">Needs IT enablement</span><h3>Copilot Cowork</h3><p>Delegate a multi-step outcome and review the results.</p></div>
+</div>
+<p class="note">“Included” means included with a Microsoft 365 Copilot license.</p>
+<h2>What is Work IQ?</h2>
+<div class="split">
+ <div>
+  <p>Work IQ is the intelligence layer behind Microsoft 365 Copilot and agents. It connects Copilot to your organization's knowledge, context, people and work — so answers reflect your emails, meetings, chats and files, not just the internet.</p>
+  <ul><li><strong>Understands your work</strong> — email, meetings and calendar, Teams chats, documents in OneDrive and SharePoint, and the people you work with.</li><li><strong>Respects what you can see</strong> — it works on your organization's data where it already lives and uses only content you have permission to access.</li><li><strong>Powers every approach on this page</strong> — a prompt, an agent and Cowork all draw on the same Work IQ. What changes is how much you set up and how much Copilot does for you.</li></ul>
+  <p><a class="btn" href="https://www.microsoft.com/en-us/copilot/features/work-iq" target="_blank" rel="noopener">Read Microsoft's overview of Work IQ</a> <a class="btn ghost" href="https://learn.microsoft.com/en-us/microsoft-365/copilot/extensibility/work-iq/" target="_blank" rel="noopener">Technical overview</a></p>
+ </div>
+</div>
+<h2>One intelligence, three ways in</h2>
+<div class="flow">
+ <div class="card flow-c"><span class="kicker">1 · Prompt</span><h3>Ask on demand</h3><p>Ask in the Copilot app, grounded in your files, email and meetings. Save it, and schedule it to run on its own.</p></div>
+ <div class="arrow" aria-hidden="true">→</div>
+ <div class="card flow-c"><span class="kicker">2 · Agent</span><h3>Make it repeatable</h3><p>Package the instructions and trusted content once; anyone you share it with gets the same approach from a one-line question.</p></div>
+ <div class="arrow" aria-hidden="true">→</div>
+ <div class="card flow-c"><span class="kicker">3 · Cowork</span><h3>Delegate the outcome</h3><p>Describe the result you want; Cowork plans the steps and produces files, drafts and calendar recommendations for your review.</p></div>
+</div>
+<h2>Which should I use?</h2>
+<div class="tablewrap"><table>
+<thead><tr><th scope="col"></th><th scope="col">Prompt</th><th scope="col">Agent Builder agent</th><th scope="col">Copilot Cowork</th></tr></thead>
+<tbody>
+<tr><th scope="row">Best for</th><td>A focused question, summary or first draft</td><td>The same questions over the same trusted content</td><td>A multi-step outcome across files, email and calendar</td></tr>
+<tr><th scope="row">Who sets it up</th><td>You</td><td>One person builds it; many use it</td><td>You describe the outcome; Cowork plans the work</td></tr>
+<tr><th scope="row">Repeat and share</th><td>Save it, schedule it, share it with your team</td><td>Share the agent — people still need access to its files</td><td>Reusable skills and scheduled tasks you can share</td></tr>
+<tr><th scope="row">Availability</th><td>Microsoft 365 Copilot license</td><td>Microsoft 365 Copilot license</td><td>Copilot license plus Cowork enabled by your IT team</td></tr>
+</tbody></table></div>
+<div class="callout"><strong>Getting started:</strong> sign in at <a href="https://m365.cloud.microsoft/" target="_blank" rel="noopener">m365.cloud.microsoft</a> with your work account. Availability depends on your organization's licenses and settings — if something here isn't available to you, check with your IT team.</div>
+</section><section class="panel" role="tabpanel" id="prompting" aria-labelledby="tab-prompting" hidden>
+<section class="lead"><p>You don't need a perfect prompt. Start with a question, sharpen it, ground it in your content — then <strong>save</strong> and <strong>schedule</strong> what works.</p></section>
+<div class="sec-head"><h2>The prompting progression</h2><button class="toggle-all" type="button" data-scope="prog">Expand all</button></div>
+<div class="acc-list" id="prog"><details class="acc"><summary><span class="step-n">1</span><span class="acc-t"><strong>Ask what it can do</strong><span class="acc-s">The easiest way to start — works in any Copilot experience.</span></span><span class="chev" aria-hidden="true"></span></summary><div class="acc-b"><div class="prompt"><div class="pt-head"><span class="pt-label">Try this first</span><span class="pt-where">Any Copilot experience</span><button class="copy" type="button" data-target="pr1" aria-label="Copy prompt to clipboard">Copy</button></div><pre id="pr1">What can you do?</pre></div></div></details><details class="acc"><summary><span class="step-n">2</span><span class="acc-t"><strong>Let Copilot write the prompt</strong><span class="acc-s">Describe your goal; Copilot asks the questions.</span></span><span class="chev" aria-hidden="true"></span></summary><div class="acc-b"><div class="prompt"><div class="pt-head"><span class="pt-label">Prompt</span><span class="pt-where">Copilot Chat</span><button class="copy" type="button" data-target="pr2" aria-label="Copy prompt to clipboard">Copy</button></div><pre id="pr2">Help me write a better prompt for this goal: <span class="ph">&lt;your goal&gt;</span>. Ask me one question at a time that will give you a better result.</pre></div></div></details><details class="acc"><summary><span class="step-n">3</span><span class="acc-t"><strong>Ground it in your content</strong><span class="acc-s">Point Copilot at your files, email and meetings.</span></span><span class="chev" aria-hidden="true"></span></summary><div class="acc-b"><p>Select <strong>+</strong> to attach files, type <strong>/</strong> to reference one, or name the SharePoint site or folder.</p><div class="prompt"><div class="pt-head"><span class="pt-label">Prompt</span><span class="pt-where">Copilot Chat</span><button class="copy" type="button" data-target="pr3" aria-label="Copy prompt to clipboard">Copy</button></div><pre id="pr3">Prepare me for <span class="ph">&lt;meeting name&gt;</span>. Use the files in <span class="ph">&lt;SharePoint site or folder&gt;</span> plus my recent emails, chats and meeting notes about it. Give me a one-page digest that covers: what changed since the last review, themes and watch-outs (including anything that conflicts), decisions needed and overdue commitments with owners, the five sharpest questions I should ask, and priority items with no review on my calendar in the next 30 days. Cite the source for every point and separate facts from assumptions. Open with a 60-second summary and create it as a self-contained HTML page I can download.</pre></div></div></details><details class="acc"><summary><span class="step-n">4</span><span class="acc-t"><strong>Iterate</strong><span class="acc-s">Follow up in the same conversation.</span></span><span class="chev" aria-hidden="true"></span></summary><div class="acc-b"><div class="prompt"><div class="pt-head"><span class="pt-label">Follow-up</span><span class="pt-where">Copilot Chat</span><button class="copy" type="button" data-target="pr4" aria-label="Copy prompt to clipboard">Copy</button></div><pre id="pr4">Go deeper on <span class="ph">&lt;topic&gt;</span>. What evidence supports it, what is still unknown, and what should I ask <span class="ph">&lt;owner&gt;</span>?</pre></div></div></details><details class="acc"><summary><span class="step-n">5</span><span class="acc-t"><strong>Capture it in one step</strong><span class="acc-s">Turn a long conversation into one reusable prompt.</span></span><span class="chev" aria-hidden="true"></span></summary><div class="acc-b"><div class="prompt"><div class="pt-head"><span class="pt-label">Prompt</span><span class="pt-where">Copilot Chat</span><button class="copy" type="button" data-target="pr5" aria-label="Copy prompt to clipboard">Copy</button></div><pre id="pr5">What should I ask next time to get to this result in one step? Write that prompt for me.</pre></div></div></details><details class="acc"><summary><span class="step-n">6</span><span class="acc-t"><strong>Save it</strong><span class="acc-s">Keep the prompts that work — and share them.</span></span><span class="chev" aria-hidden="true"></span></summary><div class="acc-b"><ol><li>After the prompt runs, hover over it and select the <strong>bookmark</strong> (Save prompt).</li><li>Give it a clear name, such as “Weekly leadership digest”.</li><li>Find it later in your prompt library under your saved prompts (labels may vary).</li></ol><p class="links"><a href="https://support.microsoft.com/en-us/microsoft-365-copilot/save-your-favorite-prompts-to-use-again" target="_blank" rel="noopener">Save your favorite prompts</a> · <a href="https://learn.microsoft.com/en-us/microsoft-365/copilot/copilot-prompt-gallery" target="_blank" rel="noopener">Share prompts with your team</a></p></div></details><details class="acc"><summary><span class="step-n">7</span><span class="acc-t"><strong>Schedule it</strong><span class="acc-s">Have it run on its own and email you when it's ready.</span></span><span class="chev" aria-hidden="true"></span></summary><div class="acc-b"><ol><li>Hover over a prompt you've run and select <strong>Schedule this prompt</strong> (clock icon).</li><li>Choose when and how often it runs, turn on the <strong>email notification</strong>, and select <strong>Save</strong>.</li><li>Results appear in your Chats list. Manage them under <strong>… Settings and more › Scheduled prompts</strong> (up to 10).</li></ol><p class="tip"><strong>Tip:</strong> name the site or folder instead of attaching files, so each run uses the latest content.</p><div class="prompt"><div class="pt-head"><span class="pt-label">Schedule-ready prompt</span><span class="pt-where">Copilot Chat · then schedule</span><button class="copy" type="button" data-target="pr6" aria-label="Copy prompt to clipboard">Copy</button></div><pre id="pr6">Every <span class="ph">&lt;Friday&gt;</span> morning, review the files added or updated in the last 7 days in <span class="ph">&lt;SharePoint site or folder&gt;</span> and my emails and meetings about <span class="ph">&lt;topic&gt;</span>. Give me what changed, decisions needed with owners, overdue commitments, rising risks and the questions I should ask. One page, most time-sensitive first, with sources.</pre></div><p class="links"><a href="https://support.microsoft.com/en-us/microsoft-365-copilot/schedule-your-most-used-copilot-prompts" target="_blank" rel="noopener">Schedule your most used Copilot prompts</a></p></div></details></div>
+<div class="acc-list solo"><details class="acc"><summary><span class="acc-t"><strong>Choosing a model</strong><span class="acc-s">Most of the time, let Copilot decide.</span></span><span class="chev" aria-hidden="true"></span></summary><div class="acc-b no-n"><p>Some experiences, such as the Researcher agent and Cowork, offer a model menu; options depend on what your organization has enabled. For a high-stakes answer, ask a second way, compare, and check the sources.</p><p class="links"><a href="https://support.microsoft.com/en-us/microsoft-365-copilot/use-claude-with-researcher-in-microsoft-365-copilot" target="_blank" rel="noopener">Model choice in Researcher</a> · <a href="https://learn.microsoft.com/en-us/microsoft-365/copilot/cowork/get-started" target="_blank" rel="noopener">Cowork model picker</a></p></div></details></div>
+<div class="sec-head"><h2>Ready-to-run prompts for finance leaders</h2><button class="toggle-all" type="button" data-scope="fin">Expand all</button></div>
+<p class="note">Replace anything in <span class="ph">&lt;angle brackets&gt;</span> with your own details.</p>
+<div class="acc-list" id="fin"><details class="acc"><summary><span class="acc-t"><strong>Prepare for a leadership meeting</strong><span class="acc-s">Copilot Chat</span></span><span class="chev" aria-hidden="true"></span></summary><div class="acc-b no-n"><div class="prompt"><div class="pt-head"><span class="pt-label">Prompt</span><span class="pt-where">Copilot Chat</span><button class="copy" type="button" data-target="pr7" aria-label="Copy prompt to clipboard">Copy</button></div><pre id="pr7">Prepare me for <span class="ph">&lt;meeting name&gt;</span> on <span class="ph">&lt;date&gt;</span>. Use my recent emails, Teams chats, meeting notes and files about it. Start with a 60-second summary, then cover what has changed since we last met, the decisions I need to make, open commitments with owners, and anything that has gone quiet. Finish with the five sharpest questions I should ask. Cite your sources.</pre></div></div></details><details class="acc"><summary><span class="acc-t"><strong>What will they ask me?</strong><span class="acc-s">Copilot Chat · attach your deck</span></span><span class="chev" aria-hidden="true"></span></summary><div class="acc-b no-n"><div class="prompt"><div class="pt-head"><span class="pt-label">Prompt</span><span class="pt-where">Copilot Chat · attach your deck</span><button class="copy" type="button" data-target="pr8" aria-label="Copy prompt to clipboard">Copy</button></div><pre id="pr8">Review <span class="ph">&lt;attach or / reference your deck or report&gt;</span>. Act as <span class="ph">&lt;the CFO / a board member / a sell-side analyst&gt;</span>. What are the ten toughest questions I'm likely to be asked? Ask me one question at a time, critique my answer, and help me sharpen it.</pre></div></div></details><details class="acc"><summary><span class="acc-t"><strong>Challenge the assumptions</strong><span class="acc-s">Copilot Chat · attach the file</span></span><span class="chev" aria-hidden="true"></span></summary><div class="acc-b no-n"><div class="prompt"><div class="pt-head"><span class="pt-label">Prompt</span><span class="pt-where">Copilot Chat · attach the file</span><button class="copy" type="button" data-target="pr9" aria-label="Copy prompt to clipboard">Copy</button></div><pre id="pr9">Review <span class="ph">&lt;forecast, budget or business case file&gt;</span>. List the key assumptions it depends on, rate how well the evidence in the file supports each one, and tell me which three I should challenge first and what evidence would change my view.</pre></div></div></details><details class="acc"><summary><span class="acc-t"><strong>What changed between versions?</strong><span class="acc-s">Copilot Chat · attach both files</span></span><span class="chev" aria-hidden="true"></span></summary><div class="acc-b no-n"><div class="prompt"><div class="pt-head"><span class="pt-label">Prompt</span><span class="pt-where">Copilot Chat · attach both files</span><button class="copy" type="button" data-target="pr10" aria-label="Copy prompt to clipboard">Copy</button></div><pre id="pr10">Compare <span class="ph">&lt;prior version&gt;</span> with <span class="ph">&lt;current version&gt;</span>. Summarize what changed in the numbers, narrative, risks and timing. Flag statements that conflict between the two and anything removed without explanation. Put a short summary on top and the detail in a table.</pre></div></div></details><details class="acc"><summary><span class="acc-t"><strong>What isn't being said?</strong><span class="acc-s">Copilot Chat · attach the document</span></span><span class="chev" aria-hidden="true"></span></summary><div class="acc-b no-n"><div class="prompt"><div class="pt-head"><span class="pt-label">Prompt</span><span class="pt-where">Copilot Chat · attach the document</span><button class="copy" type="button" data-target="pr11" aria-label="Copy prompt to clipboard">Copy</button></div><pre id="pr11">Review <span class="ph">&lt;deck, memo or report&gt;</span>. What is it silent about? Flag risks, numbers or commitments a careful reader would expect to see but are missing, and list the questions I should ask the author.</pre></div></div></details><details class="acc"><summary><span class="acc-t"><strong>Weekly digest — schedule it</strong><span class="acc-s">Copilot Chat · then schedule</span></span><span class="chev" aria-hidden="true"></span></summary><div class="acc-b no-n"><div class="prompt"><div class="pt-head"><span class="pt-label">Prompt</span><span class="pt-where">Copilot Chat · then schedule</span><button class="copy" type="button" data-target="pr12" aria-label="Copy prompt to clipboard">Copy</button></div><pre id="pr12">Summarize the emails, Teams chats, meetings and files from the past week about <span class="ph">&lt;topic, project or business unit&gt;</span>. Give me what changed, decisions made, decisions pending, risks that are rising and anything waiting on me. One page, most time-sensitive item first.</pre></div></div></details><details class="acc"><summary><span class="acc-t"><strong>Pressure-test a message before you send it</strong><span class="acc-s">Copilot Chat</span></span><span class="chev" aria-hidden="true"></span></summary><div class="acc-b no-n"><div class="prompt"><div class="pt-head"><span class="pt-label">Prompt</span><span class="pt-where">Copilot Chat</span><button class="copy" type="button" data-target="pr13" aria-label="Copy prompt to clipboard">Copy</button></div><pre id="pr13">Review the draft below and tell me how it could be read by <span class="ph">&lt;the board / my team / a business partner&gt;</span> and anyone it might be forwarded to. Flag wording that could read as dismissive, ambiguous or unintentionally revealing about budgets, decisions or people. Don't rewrite it — just give me direct perspective. Here is the draft: <span class="ph">&lt;paste your draft&gt;</span></pre></div></div></details><details class="acc"><summary><span class="acc-t"><strong>Close the day</strong><span class="acc-s">Copilot Chat</span></span><span class="chev" aria-hidden="true"></span></summary><div class="acc-b no-n"><div class="prompt"><div class="pt-head"><span class="pt-label">Prompt</span><span class="pt-where">Copilot Chat</span><button class="copy" type="button" data-target="pr14" aria-label="Copy prompt to clipboard">Copy</button></div><pre id="pr14">Look at my inbox and Teams chats from today and give me (1) the action items I still owe and (2) the items where I'm waiting on someone else. Name the person and the thread for each, put the most time-sensitive at the top, and flag anything waiting more than three days.</pre></div></div></details><details class="acc"><summary><span class="acc-t"><strong>Analyze a workbook</strong><span class="acc-s">Analyst agent · attach a workbook</span></span><span class="chev" aria-hidden="true"></span></summary><div class="acc-b no-n"><div class="prompt"><div class="pt-head"><span class="pt-label">Prompt</span><span class="pt-where">Analyst agent · attach a workbook</span><button class="copy" type="button" data-target="pr15" aria-label="Copy prompt to clipboard">Copy</button></div><pre id="pr15">Review <span class="ph">&lt;attach workbook&gt;</span>. Tell me the main patterns, outliers and where the numbers are concentrated. Flag any data-quality problems that would make me cautious, then give me the three questions I should ask the owner. Ask me one question at a time if you need context.</pre></div></div></details></div>
+</section><section class="panel" role="tabpanel" id="agent-builder" aria-labelledby="tab-agent-builder" hidden>
+<section class="lead"><p>An agent packages your instructions and trusted content once — so you, and anyone you share it with, get the same approach from a one-line question.</p></section>
+<div class="split two">
+ <div class="card"><h2 class="h-in">When to use it</h2><ul><li>You ask the <strong>same questions about the same content</strong> every week or month.</li><li>You want your team to get answers the same way, without remembering a long prompt or where the files live.</li><li>One person (a “maker”) builds and maintains it; many people use it.</li><li>Answers come from knowledge you choose — SharePoint sites, folders and files, uploaded files and websites, and, depending on your license, Teams chats, meetings and email.</li></ul></div>
+ <div class="card"><h2 class="h-in">When to step up</h2><ul><li><strong>Copilot Studio</strong> — when the agent must take actions, run multi-step workflows or approvals, connect to other business systems, or serve a whole department or organization. Usually built with a maker or your IT team. Agent Builder agents can be copied to Copilot Studio.</li><li><strong>Cowork</strong> — when you want a multi-step outcome produced for you (files, drafts, calendar recommendations) rather than answers.</li></ul></div>
+</div>
+<h2>How to build one</h2>
+<ol class="steps compact">
+ <li class="step"><div class="step-n">1</div><div class="step-b"><h3>Start a new agent</h3><p>In the Copilot app, select <strong>New agent</strong>.</p></div></li>
+ <li class="step"><div class="step-n">2</div><div class="step-b"><h3>Describe it</h3><p>On the <strong>Describe</strong> tab, paste the prompt below — or start from a template.</p></div></li>
+ <li class="step"><div class="step-n">3</div><div class="step-b"><h3>Add knowledge</h3><p>Under <strong>Knowledge</strong>, add the SharePoint site, folders or files the agent should use.</p></div></li>
+ <li class="step"><div class="step-n">4</div><div class="step-b"><h3>Test it</h3><p>On <strong>Try it</strong>, ask a question you already know the answer to and check the sources.</p></div></li>
+ <li class="step"><div class="step-n">5</div><div class="step-b"><h3>Share it</h3><p>Share the agent with your team. People still need access to the underlying files to get answers from them.</p></div></li>
+</ol>
+<div class="prompt"><h4 class="pt-title">Leadership review agent</h4><div class="pt-head"><span class="pt-label">Create-the-agent prompt</span><span class="pt-where">Agent Builder › New agent › Describe</span><button class="copy" type="button" data-target="pr16" aria-label="Copy prompt to clipboard">Copy</button></div><pre id="pr16">Create an agent called <span class="ph">&lt;agent name&gt;</span> for <span class="ph">&lt;my leadership team&gt;</span>. It reviews the updates our teams post to <span class="ph">&lt;SharePoint site, library or folder&gt;</span>. When asked, it compares the latest files with the previous ones and returns: what changed, themes and watch-outs, conflicting statements, decisions needed with owners and due dates, overdue commitments, and the questions leaders should ask each owner. It cites the file for every point, separates facts from assumptions, never estimates figures that aren't in the files, and says clearly what it couldn't find. Add these suggested prompts: What changed since the last review? What should I ask each owner? What's overdue? Where do the files disagree?</pre></div>
+<h2>Know the limits</h2>
+<div class="split two">
+ <div class="tablewrap"><table><thead><tr><th scope="col">Knowledge source</th><th scope="col">Limit per agent</th></tr></thead><tbody><tr><td>SharePoint files, folders or sites</td><td>100</td></tr><tr><td>SharePoint lists</td><td>1</td></tr><tr><td>OneDrive files</td><td>50</td></tr><tr><td>Files uploaded from your device</td><td>20</td></tr><tr><td>Public websites</td><td>4 URLs</td></tr><tr><td>Teams chats and meetings</td><td>5 chats and 5 meetings</td></tr></tbody></table></div>
+ <div class="card"><ul><li><strong>Uploaded files:</strong> up to 512 MB for Word, PowerPoint, PDF and text; 30 MB for Excel.</li><li><strong>SharePoint and OneDrive files</strong> you select have no direct size limit, but only supported file types are used — and your organization may set stricter limits. If a large deck causes trouble, saving it as a PDF can help.</li><li><strong>Excel</strong> works best when the data is on one sheet. Keep files concise.</li><li><strong>New files</strong> show “Preparing” and aren't used until they're ready.</li><li><strong>Permissions and sensitivity labels</strong> still apply.</li><li><strong>“Only use specified sources”</strong> prioritizes your content but doesn't fully block general knowledge — Copilot Studio offers stricter control.</li><li>If your organization uses <strong>Restricted SharePoint Search</strong>, SharePoint can't be used as knowledge.</li></ul></div>
+</div>
+<p class="links"><a href="https://learn.microsoft.com/en-us/microsoft-365/copilot/extensibility/agent-builder" target="_blank" rel="noopener">Agent Builder overview</a> · <a href="https://learn.microsoft.com/en-us/microsoft-365/copilot/extensibility/agent-builder-add-knowledge" target="_blank" rel="noopener">Add knowledge sources</a> · <a href="https://learn.microsoft.com/en-us/microsoft-365/copilot/extensibility/copilot-studio-experience" target="_blank" rel="noopener">Agent Builder or Copilot Studio?</a></p>
+<h2>Ready-to-use agent ideas</h2>
+<p class="note">Replace anything in <span class="ph">&lt;angle brackets&gt;</span> with your own details.</p>
+<div class="grid g2"><div class="prompt"><h4 class="pt-title">Leadership pre-read assistant</h4><div class="pt-head"><span class="pt-label">Create-the-agent prompt</span><span class="pt-where">Agent Builder › New agent</span><button class="copy" type="button" data-target="pr17" aria-label="Copy prompt to clipboard">Copy</button></div><pre id="pr17">Create an agent that helps me prepare for <span class="ph">&lt;board / leadership&gt;</span> meetings using the pre-reads in <span class="ph">&lt;SharePoint folder&gt;</span>. For each pre-read it summarizes the key points, lists the questions a director is likely to ask, and flags numbers that don't reconcile across documents. It cites every point.</pre></div><div class="prompt"><h4 class="pt-title">Policy and controls Q&amp;A</h4><div class="pt-head"><span class="pt-label">Create-the-agent prompt</span><span class="pt-where">Agent Builder › New agent</span><button class="copy" type="button" data-target="pr18" aria-label="Copy prompt to clipboard">Copy</button></div><pre id="pr18">Create an agent that answers questions about our <span class="ph">&lt;finance policies, delegation of authority, close calendar&gt;</span> using only <span class="ph">&lt;SharePoint site or folder&gt;</span>. It quotes the relevant section, names the document, and says clearly when the answer isn't in the sources.</pre></div><div class="prompt"><h4 class="pt-title">Close status</h4><div class="pt-head"><span class="pt-label">Create-the-agent prompt</span><span class="pt-where">Agent Builder › New agent</span><button class="copy" type="button" data-target="pr19" aria-label="Copy prompt to clipboard">Copy</button></div><pre id="pr19">Create an agent that reads the close checklists and status updates in <span class="ph">&lt;SharePoint folder&gt;</span> and tells me which tasks are late, who owns them, and what's at risk for <span class="ph">&lt;period&gt;</span>. It cites the file for every point.</pre></div><div class="prompt"><h4 class="pt-title">Commentary checker</h4><div class="pt-head"><span class="pt-label">Create-the-agent prompt</span><span class="pt-where">Agent Builder › New agent</span><button class="copy" type="button" data-target="pr20" aria-label="Copy prompt to clipboard">Copy</button></div><pre id="pr20">Create an agent that reviews forecast and variance commentary in <span class="ph">&lt;SharePoint folder&gt;</span> against the numbers in <span class="ph">&lt;workbook folder&gt;</span>. It flags explanations that don't match the numbers, drivers without a clear owner, and assumptions that changed without explanation. It cites the file for every point.</pre></div></div>
+<h3 class="sub">Questions to ask your agent once it's built</h3>
+<div class="grid g4 small"><div class="prompt"><div class="pt-head"><span class="pt-label">Ask your agent</span><button class="copy" type="button" data-target="pr21" aria-label="Copy prompt to clipboard">Copy</button></div><pre id="pr21">What changed since the last review?</pre></div><div class="prompt"><div class="pt-head"><span class="pt-label">Ask your agent</span><button class="copy" type="button" data-target="pr22" aria-label="Copy prompt to clipboard">Copy</button></div><pre id="pr22">What should I ask <span class="ph">&lt;owner&gt;</span> about <span class="ph">&lt;project&gt;</span>?</pre></div><div class="prompt"><div class="pt-head"><span class="pt-label">Ask your agent</span><button class="copy" type="button" data-target="pr23" aria-label="Copy prompt to clipboard">Copy</button></div><pre id="pr23">Where do the files disagree?</pre></div><div class="prompt"><div class="pt-head"><span class="pt-label">Ask your agent</span><button class="copy" type="button" data-target="pr24" aria-label="Copy prompt to clipboard">Copy</button></div><pre id="pr24">What's overdue, and who owns it?</pre></div></div>
+</section><section class="panel" role="tabpanel" id="cowork" aria-labelledby="tab-cowork" hidden>
+<div class="callout warn"><strong>Availability:</strong> Cowork requires a Microsoft 365 Copilot license, Cowork enabled in your organization, and usage-based billing turned on. If you don't see <strong>Cowork</strong> next to Chat in the Copilot app, ask your IT team.</div>
+<section class="lead"><p>Copilot Chat answers. <strong>Cowork does the work:</strong> you describe the outcome, Cowork plans the steps, works across Microsoft 365, and checks with you before it acts.</p></section>
+<h2>What's new</h2>
+<div class="grid g3"><div class="card"><h3>Outcomes, not answers</h3><p>Describe what you need. Cowork turns it into a plan, works through it and asks when something isn't clear.</p></div><div class="card"><h3>Several deliverables, one request</h3><p>Word, Excel, PowerPoint and PDF files, email drafts and briefings — from a single prompt.</p></div><div class="card"><h3>Works across inbox and calendar</h3><p>It can draft and send email, schedule meetings and manage your calendar — and asks for approval before it sends, posts or schedules.</p></div><div class="card"><h3>Runs on a schedule</h3><p>Ask in plain language — “every Friday at 7 AM”. Cowork confirms and asks for approval before activating it.</p></div><div class="card"><h3>Skills you can reuse and share</h3><p>Save a way of working as a skill, run it with one sentence, and share it with colleagues.</p></div><div class="card"><h3>Your permissions, your control</h3><p>Cowork can access only what you can access. Pause, resume or cancel at any time.</p></div></div>
+<h2>When to use it</h2>
+<div class="split two">
+ <div class="card"><h3>Use Copilot Chat when…</h3><ul><li>You need a fast answer, summary or first draft.</li><li>It's one step in one conversation.</li><li>You'll take the next action yourself.</li></ul></div>
+ <div class="card accent"><h3>Use Cowork when…</h3><ul><li>The work has several steps or several outputs.</li><li>It spans files, email and calendar.</li><li>You want it repeated on a schedule — or turned into a skill others can use.</li></ul></div>
+</div>
+<h2>How to start</h2>
+<ol class="steps compact">
+ <li class="step"><div class="step-n">1</div><div class="step-b"><h3>Open Cowork</h3><p>Open the Copilot app and select <strong>Cowork</strong> next to Chat.</p></div></li>
+ <li class="step"><div class="step-n">2</div><div class="step-b"><h3>Describe the outcome</h3><p>Say what you want produced. Select <strong>+</strong> to add files, people or meetings as context.</p></div></li>
+ <li class="step"><div class="step-n">3</div><div class="step-b"><h3>Review the plan</h3><p>Answer any questions Cowork asks as it works.</p></div></li>
+ <li class="step"><div class="step-n">4</div><div class="step-b"><h3>Approve actions</h3><p>Approve or cancel actions such as sending email or scheduling meetings.</p></div></li>
+ <li class="step"><div class="step-n">5</div><div class="step-b"><h3>Review the results</h3><p>Open the files in the side panel, download them, or keep refining.</p></div></li>
+</ol>
+<div class="prompt"><h4 class="pt-title">Your weekly leadership review pack</h4><div class="pt-head"><span class="pt-label">Prompt</span><span class="pt-where">Cowork</span><button class="copy" type="button" data-target="pr25" aria-label="Copy prompt to clipboard">Copy</button></div><pre id="pr25">Prepare my weekly <span class="ph">&lt;leadership review&gt;</span> pack from the files in <span class="ph">&lt;SharePoint site or folder&gt;</span> and my recent emails and meetings about <span class="ph">&lt;topic&gt;</span>. Create:
+1. An interactive HTML dashboard with what changed, key metrics, project status and watch-outs
+2. An Excel action tracker with owner, due date, status and source
+3. A draft follow-up email to <span class="ph">&lt;owners&gt;</span> with the questions I need answered — save it to my Drafts; do not send
+4. A check of my calendar for the next 30 days that recommends review meetings for any priority item without one, with proposed times — do not create or change any meetings
+Cite sources, validate the calculations and flag anything missing.</pre></div>
+<h3 class="sub">Make it repeatable</h3>
+<div class="grid g2"><div class="prompt"><h4 class="pt-title">Turn it into a skill</h4><div class="pt-head"><span class="pt-label">Prompt</span><span class="pt-where">Cowork</span><button class="copy" type="button" data-target="pr26" aria-label="Copy prompt to clipboard">Copy</button></div><pre id="pr26">Turn this into a skill called <span class="ph">&lt;skill name&gt;</span> so I can run it again with one sentence. Show me the instructions before you save it.</pre></div><div class="prompt"><h4 class="pt-title">Run it on a schedule</h4><div class="pt-head"><span class="pt-label">Prompt</span><span class="pt-where">Cowork</span><button class="copy" type="button" data-target="pr27" aria-label="Copy prompt to clipboard">Copy</button></div><pre id="pr27">Run my <span class="ph">&lt;weekly review&gt;</span> every <span class="ph">&lt;Friday at 7 AM&gt;</span> and email me the results.</pre></div></div>
+<p class="note">Cowork confirms a schedule and asks for approval before activating it; you can edit, pause or cancel it later.</p>
+<h2>Ready-to-run Cowork prompts</h2>
+<p class="note">Replace anything in <span class="ph">&lt;angle brackets&gt;</span> with your own details.</p>
+<div class="grid g2"><div class="prompt"><h4 class="pt-title">Protect time for priorities</h4><div class="pt-head"><span class="pt-label">Prompt</span><span class="pt-where">Cowork</span><button class="copy" type="button" data-target="pr28" aria-label="Copy prompt to clipboard">Copy</button></div><pre id="pr28">Review my calendar for the next two weeks against these priorities: <span class="ph">&lt;priorities&gt;</span>. Propose focus blocks, flag meetings I could decline or delegate, and list priorities with no time scheduled. Show me the plan before you change anything.</pre></div><div class="prompt"><h4 class="pt-title">Meeting prep pack</h4><div class="pt-head"><span class="pt-label">Prompt</span><span class="pt-where">Cowork</span><button class="copy" type="button" data-target="pr29" aria-label="Copy prompt to clipboard">Copy</button></div><pre id="pr29">Prepare me for <span class="ph">&lt;meeting&gt;</span> on <span class="ph">&lt;date&gt;</span> using <span class="ph">&lt;files or SharePoint site&gt;</span> plus my recent emails and meetings on the topic. Create a briefing document, a five-slide summary deck, and a list of likely questions with suggested answers. Cite sources.</pre></div><div class="prompt"><h4 class="pt-title">Back-from-leave catch-up</h4><div class="pt-head"><span class="pt-label">Prompt</span><span class="pt-where">Cowork</span><button class="copy" type="button" data-target="pr30" aria-label="Copy prompt to clipboard">Copy</button></div><pre id="pr30">I've been out since <span class="ph">&lt;date&gt;</span>. Review my unread email, create a catch-up briefing organized by priority, identify the decisions I need to make, and draft replies to the five most important messages. Save the replies as drafts; don't send.</pre></div><div class="prompt"><h4 class="pt-title">Variance commentary draft</h4><div class="pt-head"><span class="pt-label">Prompt</span><span class="pt-where">Cowork</span><button class="copy" type="button" data-target="pr31" aria-label="Copy prompt to clipboard">Copy</button></div><pre id="pr31">Using <span class="ph">&lt;workbook&gt;</span> and <span class="ph">&lt;prior period commentary&gt;</span>, draft variance commentary for <span class="ph">&lt;period&gt;</span> covering drivers above <span class="ph">&lt;threshold&gt;</span>, in the same style as last period. Create a Word document, list the assumptions I need to confirm with <span class="ph">&lt;owner&gt;</span>, and flag anything you couldn't verify.</pre></div></div>
+<p class="links"><a href="https://learn.microsoft.com/en-us/microsoft-365/copilot/cowork/get-started" target="_blank" rel="noopener">Get started with Cowork</a> · <a href="https://learn.microsoft.com/en-us/microsoft-365/copilot/cowork/cowork-faq" target="_blank" rel="noopener">Cowork common questions</a> · <a href="https://support.microsoft.com/en-us/microsoft-365-copilot/cowork-manage-tasks-schedule-prompts" target="_blank" rel="noopener">Schedule prompts in Cowork</a></p>
+</section></div></main>
+<section class="cta" aria-label="Keep going"><div class="wrap">
+ <div><h2 class="cta-h">Keep going</h2><p>Sign in with your work account, or browse more finance prompts from Microsoft.</p></div>
+ <div class="cta-b"><a class="btn" href="https://m365.cloud.microsoft/" target="_blank" rel="noopener">Open Copilot</a><a class="btn ghost" href="https://adoption.microsoft.com/en-us/copilot/prompt-gallery/?filter=finance" target="_blank" rel="noopener">More finance prompts</a></div>
+</div></section>
+<footer><div class="wrap">
+ <p>This guide summarizes publicly available Microsoft documentation as of October 2026. Product names, features and availability change and depend on your organization's licenses and settings. Microsoft 365 Copilot is also referred to as Microsoft Copilot.</p>
+ <p>Always review AI-generated content and check its sources before relying on it.</p>
+</div></footer>
+<div id="live" class="sr" aria-live="polite"></div>
+<script>
+(function(){
+  var tabs=[].slice.call(document.querySelectorAll('.tab'));
+  function show(id,focus){
+    var found=false;
+    tabs.forEach(function(t){var on=t.getAttribute('data-tab')===id;if(on)found=true;
+      t.setAttribute('aria-selected',on?'true':'false');t.tabIndex=on?0:-1;
+      document.getElementById(t.getAttribute('aria-controls')).hidden=!on; if(on&&focus)t.focus();});
+    return found;
+  }
+  tabs.forEach(function(t,i){
+    t.addEventListener('click',function(){var id=t.getAttribute('data-tab');show(id);history.replaceState(null,'','#'+id);window.scrollTo({top:0});});
+    t.addEventListener('keydown',function(e){var n=null;if(e.key==='ArrowRight')n=(i+1)%tabs.length;if(e.key==='ArrowLeft')n=(i-1+tabs.length)%tabs.length;
+      if(n!==null){e.preventDefault();var id=tabs[n].getAttribute('data-tab');show(id,true);history.replaceState(null,'','#'+id);}});
+  });
+  var h=(location.hash||'').replace('#',''); if(h) show(h);
+  document.querySelectorAll('.toggle-all').forEach(function(b){
+    b.addEventListener('click',function(){var box=document.getElementById(b.getAttribute('data-scope'));
+      var items=[].slice.call(box.querySelectorAll('details'));var open=items.some(function(d){return !d.open;});
+      items.forEach(function(d){d.open=open;});b.textContent=open?'Collapse all':'Expand all';});
+  });
+  var live=document.getElementById('live');
+  function fallbackCopy(text){var ta=document.createElement('textarea');ta.value=text;ta.setAttribute('readonly','');ta.style.position='fixed';ta.style.opacity='0';document.body.appendChild(ta);ta.select();var ok=false;try{ok=document.execCommand('copy');}catch(e){}document.body.removeChild(ta);return ok;}
+  document.querySelectorAll('.copy').forEach(function(b){
+    b.addEventListener('click',function(){
+      var el=document.getElementById(b.getAttribute('data-target'));var text=el?el.textContent:'';
+      function done(ok){b.textContent=ok?'Copied ✓':'Press Ctrl+C';b.classList.toggle('done',ok);live.textContent=ok?'Prompt copied to clipboard':'Copy failed';
+        if(!ok){var r=document.createRange();r.selectNodeContents(el);var s=window.getSelection();s.removeAllRanges();s.addRange(r);}
+        setTimeout(function(){b.textContent='Copy';b.classList.remove('done');},1800);}
+      if(navigator.clipboard&&window.isSecureContext){navigator.clipboard.writeText(text).then(function(){done(true);},function(){done(fallbackCopy(text));});}
+      else{done(fallbackCopy(text));}
+    });
+  });
+})();
+</script>
+</body>
+</html>
